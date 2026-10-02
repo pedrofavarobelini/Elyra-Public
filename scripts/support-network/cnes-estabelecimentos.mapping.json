@@ -1,0 +1,19 @@
+{
+  "cnes_code": "CO_CNES",
+  "official_name": "NO_FANTASIA",
+  "official_type_code": "TP_UNIDADE",
+  "municipality_code": "CO_IBGE",
+  "state_code": "CO_UF",
+  "postal_code": "CO_CEP",
+  "address_street": "NO_LOGRADOURO",
+  "address_number": "NU_ENDERECO",
+  "address_district": "NO_BAIRRO",
+  "phone": "NU_TELEFONE",
+  "latitude": "NU_LATITUDE",
+  "longitude": "NU_LONGITUDE",
+  "$rules": {
+    "zeroPad": { "cnes_code": 7, "official_type_code": 2 },
+    "typeAllowlist": ["01", "02", "20", "70", "73"],
+    "excludeWhenFilled": ["CO_MOTIVO_DESAB"]
+  }
+}

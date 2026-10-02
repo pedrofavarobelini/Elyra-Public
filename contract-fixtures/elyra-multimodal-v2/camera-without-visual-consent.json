@@ -1,0 +1,63 @@
+{
+  "contractVersion": "elyra-multimodal/v2",
+  "inputSchemaVersion": "elyra-multimodal-input/v2",
+  "operation": "interpret_observable_session_signals",
+  "aiInferenceConsent": true,
+  "multimodalAnalysisConsent": true,
+  "transcriptAnalysisConsent": false,
+  "visualAnalysisConsent": false,
+  "session": {
+    "signalsSchemaVersion": "multimodal_signals/v2",
+    "featureExtractorVersion": "elyra-signals/v3",
+    "sessionKind": "guided",
+    "capturedResources": [
+      "camera",
+      "microphone"
+    ],
+    "durationMs": 300000,
+    "modalityCoverage": [
+      {
+        "modality": "camera",
+        "outcome": "full",
+        "reason": null,
+        "coverageMs": 300000,
+        "sessionDurationMs": 300000
+      },
+      {
+        "modality": "microphone",
+        "outcome": "full",
+        "reason": null,
+        "coverageMs": 300000,
+        "sessionDurationMs": 300000
+      }
+    ],
+    "selfReport": null,
+    "windows": [
+      {
+        "signal": "movement_frequency",
+        "startOffsetMs": 0,
+        "endOffsetMs": 150000,
+        "value": 0.2
+      }
+    ],
+    "transcript": null,
+    "signals": [
+      {
+        "name": "movement_frequency",
+        "value": 0.21,
+        "unit": "index",
+        "personalBaselineMean": 0.2,
+        "personalBaselineSamples": 5,
+        "deltaVsPersonalBaseline": 0.01,
+        "status": "available",
+        "coverage": {
+          "modality": "camera",
+          "outcome": "full",
+          "reason": null,
+          "coverageMs": 300000,
+          "sessionDurationMs": 300000
+        }
+      }
+    ]
+  }
+}

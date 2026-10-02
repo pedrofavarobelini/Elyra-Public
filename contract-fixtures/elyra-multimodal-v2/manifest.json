@@ -1,0 +1,11 @@
+{
+  "contract": "elyra-multimodal/v2",
+  "signalsSchemaVersion": "multimodal_signals/v2",
+  "featureExtractorVersion": "elyra-signals/v3",
+  "fixtures": {
+    "full-multimodal": "fb75d70b82d2077ac788f7d31720e24b0066bf0d9a4a07e71d0afaed89d9da80",
+    "microphone-only": "8e57c7945b01d7e17ec0763562322c2f0c57c3d7e1ffd07e63a9f462150eda3e",
+    "camera-without-visual-consent": "a4c3261d4ec31d0a23d15a33338d95e5542b8ee3e42843fd11bea4603e644d98",
+    "absent-signals": "ada78e6b07e07750f5439065a96a2ccbf4a3baff7dee69fb790e11796f442a93"
+  }
+}

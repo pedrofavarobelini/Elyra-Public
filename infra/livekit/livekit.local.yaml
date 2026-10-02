@@ -1,0 +1,24 @@
+# LiveKit local da Elyra (PRO-7R, ADR-0025). SOMENTE desenvolvimento e QA.
+#
+# Sem segredo neste arquivo: a chave/segredo da API chegam por LIVEKIT_KEYS,
+# gerados por `npm run realtime:start` e guardados apenas no .env.local.
+#
+# `room.auto_create: false` e parte da revogacao forte: a sala so existe
+# quando o servidor da Elyra a cria depois de autorizar; apagar a sala impede
+# que um token antigo (ou o token renovado pelo proprio LiveKit) a recrie.
+port: 7880
+bind_addresses:
+  - 127.0.0.1
+rtc:
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 50100
+  use_external_ip: false
+  node_ip: 127.0.0.1
+room:
+  auto_create: false
+  empty_timeout: 120
+  max_participants: 2
+logging:
+  level: info
+  json: false

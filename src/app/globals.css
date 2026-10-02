@@ -1,0 +1,1253 @@
+@import "tailwindcss";
+
+
+
+@theme {
+  /* --- Interacao (periwinkle) --- */
+  --color-brand-50: #f2f3fe;
+  --color-brand-100: #e7e8fd;
+  --color-brand-200: #d2d4fb;
+  --color-brand-300: #b2b5f7;
+  --color-brand-400: #8d90f0;
+  --color-brand-500: #6468e6;
+  --color-brand-600: #5256d4; /* branco sobre: 5.77:1 */
+  --color-brand-700: #4347b6; /* sobre brand-100: 6.17:1 */
+  --color-brand-800: #373a92;
+  --color-brand-900: #2d2f73;
+  --color-brand-content: #4347b6;
+
+  /* --- Identidade institucional (teal do logo aprovado) --- */
+  --color-identity-50: #eef7f7;
+  --color-identity-100: #d6ecec;
+  --color-identity-500: #2b7f86;
+  --color-identity-600: #1f6a71; /* sobre surface: 6.25:1 */
+  --color-identity-700: #1a555c;
+
+  /* --- Superficies --- */
+  --color-canvas: #f5f6fb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f0f1f8;
+  --color-surface-sunken: #eceef7;
+  --color-surface-brand: #f2f3fe;
+
+  /*
+   * --- Texto ---
+   * Os tres niveis passam AA em canvas, surface, surface-muted e surface-brand
+   * (menor valor: ink-subtle sobre surface-muted, 4.69:1). Ver ADR-0003.
+   */
+  --color-ink: #1e2142;
+  --color-ink-muted: #535670;
+  --color-ink-subtle: #676a84;
+
+  /* --- Bordas --- */
+  --color-line: #e8e9f3;
+  --color-line-strong: #dcdeec;
+  /* Borda de controle: 3.53:1 sobre surface (WCAG 1.4.11). */
+  --color-line-input: #84879f;
+
+  /* --- Semanticas (texto AA sobre o respectivo -soft) --- */
+  --color-positive: #0a6c4c;
+  --color-positive-soft: #e7f6ef;
+  --color-attention: #92560a;
+  --color-attention-soft: #fdf3e3;
+  --color-destructive: #b4233f;
+  --color-destructive-soft: #fdecef;
+
+  --color-sos: #c0264b;
+  --color-sos-strong: #a11d3e;
+  --color-sos-soft: #fdeef2;
+
+  /* --- Dominio: ciclo menstrual (rosa reservado) --- */
+  --color-cycle: #be185d;
+  --color-cycle-soft: #fde8f0;
+
+  /*
+   * --- Dominio: metricas ---
+   * Cores de ICONE e SERIE (>= 3:1), nao de texto corrido.
+   */
+  --color-metric-sleep: #5b8def;
+  --color-metric-sleep-soft: #eaf2fd;
+  --color-metric-energy: #2fae7f;
+  --color-metric-energy-soft: #e6f7f0;
+  --color-metric-anxiety: #9a8cf0;
+  --color-metric-anxiety-soft: #efedfd;
+  --color-metric-mood: #5256d4;
+
+  /* --- Tipografia --- */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --text-2xs: 0.75rem;
+  --text-2xs--line-height: 1rem;
+
+  /* --- Radius --- */
+  --radius-control: 0.75rem;
+  --radius-card: 1.125rem;
+  --radius-panel: 1.5rem;
+  --radius-pill: 9999px;
+
+  /* --- Elevacao (suave e difusa; borda primeiro, sombra minima) --- */
+  --shadow-card: 0 1px 2px rgb(30 33 66 / 0.04), 0 2px 8px rgb(30 33 66 / 0.03);
+  --shadow-raised: 0 8px 24px rgb(30 33 66 / 0.07), 0 1px 3px rgb(30 33 66 / 0.04);
+  --shadow-overlay: 0 16px 40px rgb(30 33 66 / 0.14);
+
+  /* --- Breakpoints --- */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+
+  /* --- Shell --- */
+  --spacing-sidebar: 16rem;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html[data-elyra-text-size="small"] { font-size: 93.75%; }
+  html[data-elyra-text-size="large"] { font-size: 112.5%; }
+  html[data-elyra-text-size="xlarge"] { font-size: 125%; }
+
+  /*
+   * Densidade (Personalizacao): muda so o respiro — padding interno dos cards
+   * e o espaco entre secoes das telas que usam `--density-stack`. Nunca toca
+   * altura de controle: `min-h-11` (44px) continua sendo o alvo de toque em
+   * toda densidade, inclusive SOS, campos, Seguranca e App Lock.
+   */
+  html {
+    --density-card-pad: 1rem;
+    --density-card-pad-sm: 1.25rem;
+    --density-stack: 1.5rem;
+  }
+  html[data-elyra-density="compact"] {
+    --density-card-pad: 0.75rem;
+    --density-card-pad-sm: 1rem;
+    --density-stack: 1rem;
+  }
+  html[data-elyra-density="spacious"] {
+    --density-card-pad: 1.25rem;
+    --density-card-pad-sm: 1.75rem;
+    --density-stack: 2rem;
+  }
+
+  /*
+   * Formato dos cards: presets fechados de raio. `balanced` e o valor do
+   * design system; os outros dois so reatribuem os mesmos tokens que
+   * `rounded-card` e `rounded-panel` ja consomem. Raio nao afeta contraste.
+   */
+  html[data-elyra-card-shape="minimal"] {
+    --radius-card: 0.5rem;
+    --radius-panel: 0.75rem;
+  }
+  html[data-elyra-card-shape="rounded"] {
+    --radius-card: 1.5rem;
+    --radius-panel: 2rem;
+  }
+
+  /*
+   * Fundo/superficie: presets fechados que deslocam apenas as superficies.
+   * `ink`, `ink-muted` e `ink-subtle` nao mudam, entao o menor contraste do
+   * sistema (ink-subtle sobre surface-muted) continua >= 4.65:1 em todos eles.
+   * Ficam antes de `reinforced` e de `dark` de proposito: contraste reforcado e
+   * tema escuro tem de vencer estes valores na cascata.
+   */
+  html[data-elyra-background="warm"] {
+    --color-canvas: #f9f7f2;
+    --color-surface: #fffdfa;
+    --color-surface-muted: #f4f1ea;
+    --color-surface-sunken: #efebe2;
+    --color-surface-brand: #f7f3fa;
+  }
+
+  html[data-elyra-background="cool"] {
+    --color-canvas: #f1f4fa;
+    --color-surface: #ffffff;
+    --color-surface-muted: #edf1f8;
+    --color-surface-sunken: #e6ebf5;
+    --color-surface-brand: #eff3fe;
+  }
+
+  html[data-elyra-contrast="reinforced"] {
+    --color-canvas: #f1f3f8;
+    --color-surface-muted: #e7e9f2;
+    --color-surface-sunken: #dde0eb;
+    --color-ink: #101329;
+    --color-ink-muted: #32364d;
+    --color-ink-subtle: #44485f;
+    --color-line: #b8bccd;
+    --color-line-strong: #8c91a7;
+    --color-line-input: #565b72;
+    --color-brand-600: #3e42ad;
+    --color-brand-700: #30338d;
+  }
+
+  html[data-elyra-contrast="reinforced"] :focus-visible {
+    outline-width: 3px;
+    outline-color: var(--color-brand-700);
+  }
+
+  /* Presets fechados: nunca alteram erro, sucesso, warning, ciclo ou SOS. */
+  html[data-elyra-accent="teal"] {
+    --color-brand-50: #ecfafa;
+    --color-brand-100: #d5f2f1;
+    --color-brand-200: #aee4e1;
+    --color-brand-300: #7ccfcf;
+    --color-brand-400: #45afb4;
+    --color-brand-500: #278d96;
+    --color-brand-600: #176f79;
+    --color-brand-700: #115965;
+    --color-brand-800: #104852;
+    --color-brand-900: #0e3c45;
+    --color-brand-content: #115965;
+  }
+
+  html[data-elyra-accent="blue"] {
+    --color-brand-50: #eff6ff;
+    --color-brand-100: #dbeafe;
+    --color-brand-200: #bfdbfe;
+    --color-brand-300: #93c5fd;
+    --color-brand-400: #60a5fa;
+    --color-brand-500: #3b82f6;
+    --color-brand-600: #2563b8;
+    --color-brand-700: #1d4f9c;
+    --color-brand-800: #1e417b;
+    --color-brand-900: #1d365f;
+    --color-brand-content: #1d4f9c;
+  }
+
+  /*
+   * Tema escuro completo por tokens semanticos. As cores de seguranca ficam
+   * independentes do accent e mantem contraste nos seus fundos `-soft`.
+   */
+  html[data-elyra-theme="dark"] {
+    color-scheme: dark;
+    --color-canvas: #10121d;
+    --color-surface: #191c2b;
+    --color-surface-muted: #222638;
+    --color-surface-sunken: #0c0f19;
+    --color-surface-brand: #242842;
+    --color-ink: #f5f6ff;
+    --color-ink-muted: #c6cada;
+    --color-ink-subtle: #a7acbf;
+    --color-line: #353a51;
+    --color-line-strong: #484e68;
+    --color-line-input: #7e849f;
+    --color-brand-content: #c7c9ff;
+    --color-identity-50: #193337;
+    --color-identity-100: #21474b;
+    --color-identity-500: #6fc5c9;
+    --color-identity-600: #8dd6d8;
+    --color-identity-700: #b0e7e8;
+    --color-positive: #7dddb7;
+    --color-positive-soft: #153b31;
+    --color-attention: #f3c274;
+    --color-attention-soft: #463118;
+    --color-destructive: #ff9aae;
+    --color-destructive-soft: #4b202b;
+    --color-sos-soft: #4a202d;
+    --color-cycle: #f58abd;
+    --color-cycle-soft: #4a2035;
+    --color-metric-sleep-soft: #202e4d;
+    --color-metric-energy-soft: #173b31;
+    --color-metric-anxiety-soft: #302b52;
+
+    /*
+     * Rampa de marca no escuro.
+     *
+     * Os passos 50-400 sao SUPERFICIE e BORDA (bg-brand-100 aparece 23x,
+     * border-brand-200 22x). Eles nao eram redefinidos aqui, entao continuavam
+     * claros no tema escuro enquanto `ink` virava quase branco: card claro com
+     * texto claro, que foi exatamente o finding humano. Os passos 500-900
+     * permanecem como estao porque sao preenchimento interativo e texto — o
+     * branco sobre `brand-600` depende deles, e `text-brand-700/800/900` ja
+     * resolve por `--color-brand-content`.
+     */
+    --color-brand-50: #1b1e33;
+    --color-brand-100: #242844;
+    --color-brand-200: #2f3459;
+    --color-brand-300: #3f4577;
+    --color-brand-400: #5a60a4;
+  }
+
+  html[data-elyra-theme="light"] { color-scheme: light; }
+
+  html[data-elyra-theme="dark"][data-elyra-accent="teal"] {
+    --color-brand-content: #9ce7e3;
+  }
+
+  html[data-elyra-theme="dark"][data-elyra-accent="blue"] {
+    --color-brand-content: #a9cfff;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-elyra-theme="system"] {
+      color-scheme: dark;
+      --color-canvas: #10121d;
+      --color-surface: #191c2b;
+      --color-surface-muted: #222638;
+      --color-surface-sunken: #0c0f19;
+      --color-surface-brand: #242842;
+      --color-ink: #f5f6ff;
+      --color-ink-muted: #c6cada;
+      --color-ink-subtle: #a7acbf;
+      --color-line: #353a51;
+      --color-line-strong: #484e68;
+      --color-line-input: #7e849f;
+      --color-brand-content: #c7c9ff;
+      --color-identity-50: #193337;
+      --color-identity-100: #21474b;
+      --color-identity-500: #6fc5c9;
+      --color-identity-600: #8dd6d8;
+      --color-identity-700: #b0e7e8;
+      --color-positive: #7dddb7;
+      --color-positive-soft: #153b31;
+      --color-attention: #f3c274;
+      --color-attention-soft: #463118;
+      --color-destructive: #ff9aae;
+      --color-destructive-soft: #4b202b;
+      --color-sos-soft: #4a202d;
+      --color-cycle: #f58abd;
+      --color-cycle-soft: #4a2035;
+      --color-metric-sleep-soft: #202e4d;
+      --color-metric-energy-soft: #173b31;
+      --color-metric-anxiety-soft: #302b52;
+
+      /*
+       * Rampa de marca no escuro.
+       *
+       * Os passos 50-400 sao SUPERFICIE e BORDA (bg-brand-100 aparece 23x,
+       * border-brand-200 22x). Eles nao eram redefinidos aqui, entao continuavam
+       * claros no tema escuro enquanto `ink` virava quase branco: card claro com
+       * texto claro, que foi exatamente o finding humano. Os passos 500-900
+       * permanecem como estao porque sao preenchimento interativo e texto — o
+       * branco sobre `brand-600` depende deles, e `text-brand-700/800/900` ja
+       * resolve por `--color-brand-content`.
+       */
+      --color-brand-50: #1b1e33;
+      --color-brand-100: #242844;
+      --color-brand-200: #2f3459;
+      --color-brand-300: #3f4577;
+      --color-brand-400: #5a60a4;
+    }
+
+    html[data-elyra-theme="system"][data-elyra-accent="teal"] {
+      --color-brand-content: #9ce7e3;
+    }
+
+    html[data-elyra-theme="system"][data-elyra-accent="blue"] {
+      --color-brand-content: #a9cfff;
+    }
+
+    html[data-elyra-theme="system"][data-elyra-background="warm"] {
+      --color-canvas: #181319;
+      --color-surface: #221c24;
+      --color-surface-muted: #2b2432;
+      --color-surface-sunken: #120e13;
+      --color-surface-brand: #2c2440;
+    }
+
+    html[data-elyra-theme="system"][data-elyra-background="cool"] {
+      --color-canvas: #0d1420;
+      --color-surface: #151d2c;
+      --color-surface-muted: #1e2739;
+      --color-surface-sunken: #080e18;
+      --color-surface-brand: #202b45;
+    }
+  }
+
+  html[data-elyra-theme="dark"][data-elyra-background="warm"] {
+    --color-canvas: #181319;
+    --color-surface: #221c24;
+    --color-surface-muted: #2b2432;
+    --color-surface-sunken: #120e13;
+    --color-surface-brand: #2c2440;
+  }
+
+  html[data-elyra-theme="dark"][data-elyra-background="cool"] {
+    --color-canvas: #0d1420;
+    --color-surface: #151d2c;
+    --color-surface-muted: #1e2739;
+    --color-surface-sunken: #080e18;
+    --color-surface-brand: #202b45;
+  }
+
+  html[data-elyra-theme="dark"][data-elyra-contrast="reinforced"] {
+    --color-canvas: #080a12;
+    --color-surface: #141724;
+    --color-surface-muted: #202438;
+    --color-surface-sunken: #05070c;
+    --color-ink: #ffffff;
+    --color-ink-muted: #dde0ed;
+    --color-ink-subtle: #c4c8d8;
+    --color-line: #666d88;
+    --color-line-strong: #858ca8;
+    --color-line-input: #a2a8bd;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-elyra-theme="system"][data-elyra-contrast="reinforced"] {
+      --color-canvas: #080a12;
+      --color-surface: #141724;
+      --color-surface-muted: #202438;
+      --color-surface-sunken: #05070c;
+      --color-ink: #ffffff;
+      --color-ink-muted: #dde0ed;
+      --color-ink-subtle: #c4c8d8;
+      --color-line: #666d88;
+      --color-line-strong: #858ca8;
+      --color-line-input: #a2a8bd;
+    }
+  }
+
+
+  :root {
+    --color-chart-mood: #5256d4;
+    --color-chart-anxiety: #9a8cf0;
+    --color-chart-sleep: #5b8def;
+    --color-chart-energy: #2fae7f;
+    --color-chart-cycle: #ec4899;
+    --color-chart-cycle-band: #fde8f0;
+    --color-chart-gap: #f5f6fb;
+    --color-chart-gap-stroke: #dfe2ee;
+    --color-chart-grid: #e8e9f3;
+    --color-chart-axis: #676a84;
+    --color-chart-tooltip-bg: #ffffff;
+    --color-chart-tooltip-border: #e8e9f3;
+    --color-chart-tooltip-ink: #1e2142;
+  }
+
+  html[data-elyra-contrast="reinforced"] {
+    --color-chart-grid: #b8bccd;
+    --color-chart-axis: #44485f;
+    --color-chart-gap-stroke: #b8bccd;
+  }
+
+  html[data-elyra-theme="dark"] {
+    --color-chart-mood: #4564d0;
+    --color-chart-anxiety: #ae6dca;
+    --color-chart-sleep: #418ad1;
+    --color-chart-energy: #16a56e;
+    --color-chart-cycle: #f58abd;
+    --color-chart-cycle-band: #3a1d2e;
+    --color-chart-gap: #1d2031;
+    --color-chart-gap-stroke: #2e3349;
+    --color-chart-grid: #2a2f44;
+    --color-chart-axis: #a7acbf;
+    --color-chart-tooltip-bg: #222638;
+    --color-chart-tooltip-border: #353a51;
+    --color-chart-tooltip-ink: #f5f6ff;
+  }
+
+  html[data-elyra-theme="dark"][data-elyra-contrast="reinforced"] {
+    --color-chart-grid: #4a5170;
+    --color-chart-axis: #c4c8d8;
+    --color-chart-gap-stroke: #4a5170;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-elyra-theme="system"] {
+      --color-chart-mood: #4564d0;
+      --color-chart-anxiety: #ae6dca;
+      --color-chart-sleep: #418ad1;
+      --color-chart-energy: #16a56e;
+      --color-chart-cycle: #f58abd;
+      --color-chart-cycle-band: #3a1d2e;
+      --color-chart-gap: #1d2031;
+      --color-chart-gap-stroke: #2e3349;
+      --color-chart-grid: #2a2f44;
+      --color-chart-axis: #a7acbf;
+      --color-chart-tooltip-bg: #222638;
+      --color-chart-tooltip-border: #353a51;
+      --color-chart-tooltip-ink: #f5f6ff;
+    }
+
+    html[data-elyra-theme="system"][data-elyra-contrast="reinforced"] {
+      --color-chart-grid: #4a5170;
+      --color-chart-axis: #c4c8d8;
+      --color-chart-gap-stroke: #4a5170;
+    }
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Foco visivel e consistente - requisito de acessibilidade basica. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-200);
+    color: var(--color-brand-900);
+  }
+}
+
+@layer components {
+  /*
+   * Aparencia (superficie, borda, sombra) e formato (raio) sao eixos
+   * independentes: a aparencia nao fixa raio, senao "Elevado" anularia o
+   * formato escolhido.
+   */
+  html[data-elyra-card-style="soft"] [data-elyra-card]:not([data-elyra-card="muted"]) {
+    border-color: transparent;
+    background-color: var(--color-surface-muted);
+    box-shadow: none;
+  }
+
+  html[data-elyra-card-style="elevated"] [data-elyra-card]:not([data-elyra-card="muted"]) {
+    border-color: transparent;
+    box-shadow: var(--shadow-raised);
+  }
+
+  .card-pad {
+    padding: var(--density-card-pad);
+  }
+  @media (width >= 40rem) {
+    .card-pad {
+      padding: var(--density-card-pad-sm);
+    }
+  }
+
+
+  .appearance-accent-swatch {
+    width: 0.75rem;
+    height: 0.75rem;
+    flex: none;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 0 0 1px var(--color-line-strong);
+  }
+
+  .appearance-surface-swatch {
+    width: 0.75rem;
+    height: 0.75rem;
+    flex: none;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 0 1px var(--color-line-strong);
+  }
+
+  .appearance-surface-swatch-neutral { background-color: #f5f6fb; }
+  .appearance-surface-swatch-warm { background-color: #f9f7f2; }
+  .appearance-surface-swatch-cool { background-color: #f1f4fa; }
+
+  .appearance-accent-swatch-violet { background-color: #5256d4; }
+  .appearance-accent-swatch-teal { background-color: #176f79; }
+  .appearance-accent-swatch-blue { background-color: #2563b8; }
+
+  html[data-elyra-theme="dark"] .elyra-canvas {
+    background-image:
+      radial-gradient(60rem 28rem at 70% -8rem, rgb(82 86 212 / 0.18), transparent 70%),
+      radial-gradient(40rem 22rem at 0% 0%, rgb(43 127 134 / 0.14), transparent 70%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-elyra-theme="system"] .elyra-canvas {
+      background-image:
+        radial-gradient(60rem 28rem at 70% -8rem, rgb(82 86 212 / 0.18), transparent 70%),
+        radial-gradient(40rem 22rem at 0% 0%, rgb(43 127 134 / 0.14), transparent 70%);
+    }
+  }
+
+
+  .score-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+
+    height: 2.75rem;
+    background: transparent;
+    cursor: pointer;
+    touch-action: pan-y;
+  }
+
+  .score-slider::-webkit-slider-runnable-track {
+    height: 0.5rem;
+    border-radius: var(--radius-pill);
+    background: linear-gradient(
+      to right,
+      var(--slider-accent) 0 var(--slider-fill),
+      var(--color-surface-sunken) var(--slider-fill) 100%
+    );
+  }
+
+  .score-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -0.4375rem;
+    height: 1.375rem;
+    width: 1.375rem;
+    border-radius: var(--radius-pill);
+    border: 3px solid var(--color-surface);
+    background: var(--slider-accent);
+    box-shadow: 0 1px 4px rgb(30 33 66 / 0.28);
+  }
+
+  .score-slider::-moz-range-track {
+    height: 0.5rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-sunken);
+  }
+
+  .score-slider::-moz-range-progress {
+    height: 0.5rem;
+    border-radius: var(--radius-pill);
+    background: var(--slider-accent);
+  }
+
+  .score-slider::-moz-range-thumb {
+    height: 1rem;
+    width: 1rem;
+    border: 3px solid var(--color-surface);
+    border-radius: var(--radius-pill);
+    background: var(--slider-accent);
+    box-shadow: 0 1px 4px rgb(30 33 66 / 0.28);
+  }
+
+  .score-slider:disabled,
+  .score-slider[data-unset="true"] {
+    opacity: 0.5;
+  }
+
+
+  .scroll-fade-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 1rem,
+      #000 calc(100% - 2rem),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 1rem,
+      #000 calc(100% - 2rem),
+      transparent 100%
+    );
+  }
+
+  @media (min-width: 64rem) {
+    .scroll-fade-x {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+}
+
+@layer components {
+
+  .elyra-canvas {
+    background-color: var(--color-canvas);
+    background-image:
+      radial-gradient(60rem 28rem at 70% -8rem, rgb(210 212 251 / 0.45), transparent 70%),
+      radial-gradient(40rem 22rem at 0% 0%, rgb(238 247 247 / 0.7), transparent 70%);
+    background-repeat: no-repeat;
+  }
+}
+
+@layer utilities {
+  /* Conteudo visivel apenas para leitores de tela. */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* ==========================================================================
+   Motion system
+   --------------------------------------------------------------------------
+   Existe para dar **feedback e orientacao**, nao para decorar. Toda animacao
+   aqui responde a uma pergunta que a pessoa esta fazendo: "o que eu acabei de
+   apertar?", "de onde essa coisa veio?", "isso ainda esta carregando?".
+
+   Duas regras sustentam o resto:
+
+   1. **So `transform` e `opacity`.** As duas propriedades que o navegador
+      anima no compositor, sem recalcular layout. Animar `width`, `height`,
+      `top` ou `margin` produz jank em celular - exatamente onde a homologacao
+      fisica acontece.
+
+   2. **`prefers-reduced-motion` desliga tudo.** Nao e preferencia estetica: ha
+      quem sinta nausea e enxaqueca com movimento na tela. O bloco no fim deste
+      arquivo e a implementacao, e ele e global de proposito - vale ate para
+      animacao que alguem adicionar depois sem lembrar de tratar o caso.
+
+   Duracoes vem de tres faixas, por escala do elemento que se move:
+     - micro     120-200ms  hover, press, foco, mudanca de estado pontual
+     - component 160-240ms  card, chip, toggle, aba, toast
+     - overlay   220-320ms  drawer e dialog, que atravessam a tela inteira
+   ========================================================================== */
+
+@theme {
+
+  --duration-fast: 140ms;
+  --duration-normal: 240ms;
+  --duration-slow: 420ms;
+  --duration-brand: 1100ms;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-emphasis: cubic-bezier(0.34, 1.3, 0.64, 1);
+
+  /* Aliases da V1: consumidores antigos herdam os novos valores. */
+  --duration-micro: var(--duration-fast);
+  --duration-component: var(--duration-normal);
+  --duration-overlay: 280ms;
+  --ease-out-soft: var(--ease-enter);
+  --ease-in-out-soft: var(--ease-standard);
+}
+
+@layer utilities {
+  @keyframes elyra-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes elyra-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  /* Sobe pouco: 8px sugere origem sem parecer que a tela escorregou. */
+  @keyframes elyra-rise-in {
+    from { opacity: 0; transform: translate3d(0, 8px, 0); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /*
+   * Entrada de pagina SEM opacidade: o conteudo e legivel desde o primeiro
+   * frame (contraste medido por axe/leitores nunca pega texto semitransparente).
+   * O movimento e so o "assentar" vertical.
+   */
+  @keyframes elyra-settle {
+    from { transform: translate3d(0, 10px, 0); }
+    to { transform: none; }
+  }
+
+  /* Arco curto: a geometria orbital da marca aplicada a itens de lista. */
+  @keyframes elyra-orbit-in {
+    from { opacity: 0; transform: translate3d(-14px, 6px, 0) rotate(-2deg); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes elyra-slide-in-left {
+    from { transform: translate3d(-100%, 0, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+
+  @keyframes elyra-slide-out-left {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-100%, 0, 0); }
+  }
+
+  @keyframes elyra-sheet-up {
+    from { transform: translate3d(0, 24px, 0); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+
+  @keyframes elyra-scale-in {
+    from { transform: scale(0.97); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+
+  @keyframes elyra-pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.08); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes elyra-grow-x {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  @keyframes elyra-orbit {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes elyra-breathe {
+    0%, 100% { transform: scale(1); opacity: 0.55; }
+    50% { transform: scale(1.08); opacity: 0.9; }
+  }
+
+  @keyframes elyra-ring-trace {
+    from { stroke-dashoffset: 1; opacity: 0.9; }
+    70% { opacity: 0.9; }
+    to { stroke-dashoffset: 0; opacity: 0; }
+  }
+
+  .motion-fade-in {
+    animation: elyra-fade-in var(--duration-normal) var(--ease-enter) both;
+  }
+
+  .motion-rise-in {
+    animation: elyra-rise-in var(--duration-normal) var(--ease-enter) both;
+  }
+
+  .motion-pop {
+    animation: elyra-pop var(--duration-slow) var(--ease-emphasis) both;
+  }
+
+  /* Entrada de pagina: cada bloco assenta em sequencia curta (teto de 6). */
+  .motion-page > * {
+    animation: elyra-settle var(--duration-slow) var(--ease-enter) both;
+  }
+  .motion-page > :nth-child(2) { animation-delay: 30ms; }
+  .motion-page > :nth-child(3) { animation-delay: 60ms; }
+  .motion-page > :nth-child(4) { animation-delay: 90ms; }
+  .motion-page > :nth-child(5) { animation-delay: 120ms; }
+  .motion-page > :nth-child(n + 6) { animation-delay: 150ms; }
+
+  /*
+   * Entrada escalonada de lista.
+   * O atraso e por item e o teto e baixo: uma lista longa nao pode fazer a
+   * pessoa esperar a animacao terminar para poder tocar no ultimo item.
+   */
+  .motion-stagger > * {
+    animation: elyra-orbit-in var(--duration-normal) var(--ease-enter) both;
+    animation-delay: calc(min(var(--stagger-index, 0), 8) * 32ms + 60ms);
+  }
+
+  /* Barra de progresso cresce da esquerda ate o valor real. */
+  .motion-grow-x {
+    transform-origin: left center;
+    animation: elyra-grow-x var(--duration-slow) var(--ease-enter) both;
+  }
+
+  /*
+   * Progresso que muda na tela (MOTION-2): na primeira vez cresce do zero; nas
+   * seguintes desliza ate o valor novo. So `transform`, nunca `width`.
+   * `backwards`: sem preencher depois do fim, a transicao assume.
+   */
+  @keyframes elyra-grow-from-zero {
+    from { transform: scaleX(0); }
+  }
+  .motion-progress {
+    transform-origin: left center;
+    transform: scaleX(var(--progress, 0));
+    transition: transform var(--duration-slow) var(--ease-standard);
+    animation: elyra-grow-from-zero var(--duration-slow) var(--ease-enter) backwards;
+  }
+
+  /* Card interativo: eleva no hover (ponteiro fino) e afunda no toque. */
+  .motion-lift {
+    transition:
+      transform var(--duration-normal) var(--ease-standard),
+      box-shadow var(--duration-normal) var(--ease-standard),
+      border-color var(--duration-normal) var(--ease-standard);
+  }
+  @media (hover: hover) {
+    .motion-lift:hover {
+      transform: translate3d(0, -2px, 0);
+    }
+  }
+  .motion-lift:active {
+    transform: scale(0.985);
+  }
+
+  /* Estados de overlay dirigidos pelo Radix (`data-state`). */
+  [data-elyra-drawer][data-state="open"] {
+    animation: elyra-slide-in-left var(--duration-overlay) var(--ease-enter);
+  }
+
+  [data-elyra-drawer][data-state="closed"] {
+    animation: elyra-slide-out-left var(--duration-normal) var(--ease-exit);
+  }
+
+  [data-elyra-backdrop][data-state="open"] {
+    animation: elyra-fade-in var(--duration-overlay) var(--ease-enter);
+  }
+
+  [data-elyra-backdrop][data-state="closed"] {
+    animation: elyra-fade-out var(--duration-normal) var(--ease-exit);
+  }
+
+  [data-elyra-dialog][data-state="open"] {
+    animation: elyra-sheet-up var(--duration-overlay) var(--ease-enter);
+  }
+
+  [data-elyra-dialog][data-state="closed"] {
+    animation: elyra-fade-out var(--duration-fast) var(--ease-exit);
+  }
+
+  @media (min-width: 40rem) {
+    [data-elyra-dialog][data-state="open"] {
+      animation: elyra-scale-in var(--duration-normal) var(--ease-enter);
+    }
+  }
+
+  /*
+   * Resposta ao toque.
+   * Serve mais no celular que no desktop: sem hover, o press e a unica
+   * confirmacao de que o dedo acertou o alvo.
+   */
+  .motion-press {
+    transition: transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .motion-press:active {
+    transform: scale(0.97);
+  }
+}
+
+/* ==========================================================================
+   Elyra Brand Motion
+   Abertura pre-login, painel de marca, loader e micro-resposta. Video e sempre
+   decorativo; a identidade final e o PNG oficial renderizado pela aplicacao.
+   ========================================================================== */
+@layer components {
+  @keyframes elyra-brand-idle {
+    0%, 100% { transform: translate3d(0, -2px, 0); filter: drop-shadow(0 12px 28px rgb(82 86 212 / 0.08)); }
+    50% { transform: translate3d(0, 3px, 0); filter: drop-shadow(0 16px 34px rgb(43 127 134 / 0.14)); }
+  }
+
+  .mobile-brand-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    overflow: hidden;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right)
+      env(safe-area-inset-bottom) env(safe-area-inset-left);
+    background: #f7f7fb;
+    opacity: 1;
+    transition: opacity 340ms var(--ease-exit);
+  }
+
+  .mobile-brand-splash[data-phase="exit"] { opacity: 0; }
+
+  .mobile-brand-splash-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .brand-bloom,
+  .desktop-brand-bloom {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 48%, rgb(255 255 255 / 1) 0 18%, rgb(247 247 252 / 0.98) 52%, rgb(239 243 250 / 0.98) 100%);
+    opacity: 0;
+    transition: opacity 240ms var(--ease-enter);
+  }
+
+  .brand-reveal-symbol {
+    position: relative;
+    width: min(34vw, 9.5rem);
+    height: auto;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 420ms var(--ease-enter), transform 520ms var(--ease-enter);
+  }
+
+  .mobile-brand-splash[data-phase="reveal"] .brand-bloom,
+  .mobile-brand-splash[data-phase="exit"] .brand-bloom,
+  .desktop-brand-motion[data-phase="reveal"] .desktop-brand-bloom,
+  .desktop-brand-motion[data-phase="hold"] .desktop-brand-bloom {
+    opacity: 1;
+  }
+
+  .mobile-brand-splash[data-phase="reveal"] .brand-reveal-symbol,
+  .mobile-brand-splash[data-phase="exit"] .brand-reveal-symbol {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .desktop-brand-motion {
+    position: relative;
+    min-height: 16rem;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: var(--radius-panel);
+    isolation: isolate;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgb(255 255 255 / 0.9), rgb(231 232 253 / 0.45) 55%, transparent 76%);
+  }
+
+  .desktop-brand-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .desktop-brand-lockup {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity 420ms var(--ease-enter), transform 520ms var(--ease-enter);
+  }
+
+  /*
+   * Ciclo continuo (gate Brand Motion final). `loading` NAO mostra a marca: a
+   * primeira pintura e o poster (quadro 0 do filme). Marca estatica em
+   * `loading` produzia marca -> painel claro -> video, o flash visto no QA.
+   * `reveal` e `hold` sustentam bloom + simbolo oficial; o reinicio acontece
+   * por baixo deles. `idle` e o estado estatico (reduced motion, erro, carga).
+   */
+  .desktop-brand-motion[data-phase="reveal"] .desktop-brand-lockup,
+  .desktop-brand-motion[data-phase="hold"] .desktop-brand-lockup,
+  .desktop-brand-motion[data-phase="idle"] .desktop-brand-lockup {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /*
+   * Crossfade de volta ao filme: sair do bloom e mais lento que entrar nele.
+   * A entrada (240 ms) precisa cobrir a geometria IA a tempo; a saida (450 ms)
+   * revela o quadro 0 sem corte.
+   */
+  .desktop-brand-motion[data-phase="playing"] .desktop-brand-bloom,
+  .desktop-brand-motion[data-phase="playing"] .desktop-brand-lockup {
+    transition-duration: 450ms;
+    transition-timing-function: ease-in-out;
+  }
+
+  .desktop-brand-motion[data-phase="idle"] .desktop-brand-lockup {
+    animation: elyra-brand-idle 7s ease-in-out infinite;
+  }
+
+  /*
+   * Primeira pintura sem flash. O HTML do servidor chega em `pending` e o
+   * `<video>` so monta depois da hidratacao; ate la o painel ja mostra o quadro
+   * 0 do filme, no mesmo enquadramento `contain` do video. Com reduced motion,
+   * a mesma fase mostra direto a marca estatica — nunca poster e depois marca.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .desktop-brand-motion[data-phase="pending"],
+    .desktop-brand-motion[data-phase="loading"] {
+      background:
+        url("/placeholder/artwork.svg") center / contain no-repeat,
+        radial-gradient(circle at 50% 50%, rgb(255 255 255 / 0.9), rgb(231 232 253 / 0.45) 55%, transparent 76%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .desktop-brand-motion[data-phase="pending"] .desktop-brand-lockup {
+      opacity: 1;
+      transform: scale(1);
+      transition: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .desktop-brand-motion[data-phase="idle"] .desktop-brand-lockup {
+      animation: none;
+      filter: none;
+    }
+  }
+
+  /* Loader: aneis em velocidades diferentes, sem pulso de tamanho. */
+  .brand-orbit-outer { animation: elyra-orbit 1.6s linear infinite; }
+  .brand-orbit-inner { animation: elyra-orbit 0.95s linear infinite reverse; }
+
+  /* Micro-resposta: um anel orbital contorna a marca uma vez ao tocar/passar. */
+  .brand-hover { position: relative; isolation: isolate; }
+  .brand-hover .brand-ring {
+    position: absolute;
+    inset: -6px;
+    pointer-events: none;
+    opacity: 0;
+  }
+  .brand-hover .brand-ring circle {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  @media (hover: hover) {
+    .brand-hover:hover .brand-ring { opacity: 1; }
+    .brand-hover:hover .brand-ring circle {
+      animation: elyra-ring-trace var(--duration-slow) var(--ease-enter) both;
+    }
+  }
+  .brand-hover:active .brand-ring,
+  .brand-hover:focus-visible .brand-ring { opacity: 1; }
+  .brand-hover:active .brand-ring circle,
+  .brand-hover:focus-visible .brand-ring circle {
+    animation: elyra-ring-trace var(--duration-slow) var(--ease-enter) both;
+  }
+}
+
+@layer utilities {
+  /* Texto de destaque pode clarear no tema escuro sem clarear botoes primarios. */
+  .text-brand-700 { color: var(--color-brand-content); }
+
+  html[data-elyra-theme="dark"] .text-brand-600,
+  html[data-elyra-theme="dark"] .text-brand-800,
+  html[data-elyra-theme="dark"] .text-brand-900,
+  /* Hover escurece no claro; no escuro, brand-800 sobre surface cai a 1.75:1 (F7, axe). */
+  html[data-elyra-theme="dark"] .hover\:text-brand-800:hover {
+    color: var(--color-brand-content);
+  }
+
+  /*
+   * Texto de SOS ("Ligar 188", aviso do painel) no escuro: #a11d3e sobre
+   * surface/sos-soft escuros falha contraste (achado no E2E do PRO-8). So a
+   * COR DE TEXTO clareia; o token continua escuro porque e fundo do hover do
+   * botao SOS, com texto branco.
+   */
+  html[data-elyra-theme="dark"] .text-sos-strong {
+    color: #ffa3b8;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-elyra-theme="system"] .text-brand-600,
+    html[data-elyra-theme="system"] .text-brand-800,
+    html[data-elyra-theme="system"] .text-brand-900,
+    html[data-elyra-theme="system"] .hover\:text-brand-800:hover {
+      color: var(--color-brand-content);
+    }
+
+    html[data-elyra-theme="system"] .text-sos-strong {
+      color: #ffa3b8;
+    }
+  }
+}
+
+/*
+ * Desligar movimento e requisito de acessibilidade, nao ajuste fino.
+ *
+ * Vale para tudo - inclusive para animacao que ainda nao existe neste arquivo.
+ * `0.01ms` em vez de `0s` porque zero cancela o evento `animationend`, e ha
+ * componente que depende dele para desmontar; o Radix e um deles.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-elyra-motion="reduce"] *,
+html[data-elyra-motion="reduce"] *::before,
+html[data-elyra-motion="reduce"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/*
+ * Navegacao desktop compacta. So existe onde a sidebar existe (>= lg) e so
+ * no shell autenticado (`data-elyra-shell="app"`): drawer do celular e shell
+ * offline continuam iguais. O rotulo sai da tela, nao da arvore de
+ * acessibilidade — segue como nome do link e aparece no `title`.
+ *
+ * Fora de `@layer` de proposito: precisa vencer utilitarios como `flex` e
+ * `px-3` do link e da marca.
+ */
+.sidebar-brand-symbol {
+  display: none;
+}
+@media (width >= 64rem) {
+  html[data-elyra-navigation="compact"] [data-elyra-shell="app"] {
+    --spacing-sidebar: 5rem;
+  }
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .nav-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .nav-link {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .nav-group-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] div + div > .nav-group-label + ul {
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.5rem;
+  }
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .sidebar-brand-full,
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .sidebar-footer,
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .sidebar-context-badge {
+    display: none;
+  }
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .sidebar-brand-symbol {
+    display: flex;
+  }
+
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .context-switcher {
+    flex-direction: column;
+    border-radius: var(--radius-card);
+  }
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .context-switcher-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  html[data-elyra-navigation="compact"] [data-elyra-sidebar] .sidebar-brand-row {
+    justify-content: center;
+    padding-inline: 0;
+  }
+}
+
+/*
+  SUP-2 (ADR-0032) - pino da Rede de Apoio. E um <button> de verdade (foco,
+  Enter/Espaco, nome acessivel). Selecionado nao depende so de cor: fica maior
+  e ganha anel. Tamanho de toque >= 32 px com area util de 44 px pelo padding.
+*/
+.elyra-support-pin {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px 9999px 9999px 0.25rem;
+  transform: rotate(-45deg);
+  background: var(--color-brand-600);
+  border: 3px solid var(--color-surface);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.35);
+  cursor: pointer;
+}
+.elyra-support-pin[data-selected="true"] {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--color-brand-700);
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+  z-index: 2;
+}
+.elyra-support-pin:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}

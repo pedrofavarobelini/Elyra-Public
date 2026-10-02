@@ -1,0 +1,18 @@
+{
+  "cnes_code": "CNES",
+  "official_name": "NOME_UNIDADE",
+  "official_type_code": "TIPO_CODIGO",
+  "official_type_name": "TIPO_NOME",
+  "municipality_code": "MUNICIPIO_IBGE",
+  "municipality_name": "MUNICIPIO_NOME",
+  "state_code": "UF",
+  "postal_code": "CEP",
+  "address_street": "LOGRADOURO",
+  "address_number": "NUMERO",
+  "address_district": "BAIRRO",
+  "phone": "TELEFONE",
+  "latitude": "LATITUDE",
+  "longitude": "LONGITUDE",
+  "source_active": "SITUACAO",
+  "source_updated_at": "ATUALIZADO_EM"
+}

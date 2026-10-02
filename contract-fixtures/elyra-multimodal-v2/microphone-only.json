@@ -1,0 +1,74 @@
+{
+  "contractVersion": "elyra-multimodal/v2",
+  "inputSchemaVersion": "elyra-multimodal-input/v2",
+  "operation": "interpret_observable_session_signals",
+  "aiInferenceConsent": true,
+  "multimodalAnalysisConsent": true,
+  "transcriptAnalysisConsent": true,
+  "visualAnalysisConsent": false,
+  "session": {
+    "signalsSchemaVersion": "multimodal_signals/v2",
+    "featureExtractorVersion": "elyra-signals/v3",
+    "sessionKind": "free",
+    "capturedResources": [
+      "microphone"
+    ],
+    "durationMs": 180000,
+    "modalityCoverage": [
+      {
+        "modality": "microphone",
+        "outcome": "full",
+        "reason": null,
+        "coverageMs": 180000,
+        "sessionDurationMs": 180000
+      }
+    ],
+    "selfReport": {
+      "mood": null,
+      "perceivedAnxiety": 7,
+      "energy": null
+    },
+    "windows": [],
+    "transcript": {
+      "language": "pt-BR",
+      "text": "Hoje foi um dia corrido.",
+      "wordCount": 5,
+      "voicedDurationMs": 90000,
+      "truncated": false
+    },
+    "signals": [
+      {
+        "name": "speech_rate",
+        "value": 118,
+        "unit": "words_per_minute",
+        "personalBaselineMean": 124,
+        "personalBaselineSamples": 12,
+        "deltaVsPersonalBaseline": -6,
+        "status": "available",
+        "coverage": {
+          "modality": "microphone",
+          "outcome": "full",
+          "reason": null,
+          "coverageMs": 180000,
+          "sessionDurationMs": 180000
+        }
+      },
+      {
+        "name": "vocal_variation",
+        "value": 0.44,
+        "unit": "index",
+        "personalBaselineMean": null,
+        "personalBaselineSamples": 0,
+        "deltaVsPersonalBaseline": null,
+        "status": "insufficient_baseline",
+        "coverage": {
+          "modality": "microphone",
+          "outcome": "full",
+          "reason": null,
+          "coverageMs": 180000,
+          "sessionDurationMs": 180000
+        }
+      }
+    ]
+  }
+}

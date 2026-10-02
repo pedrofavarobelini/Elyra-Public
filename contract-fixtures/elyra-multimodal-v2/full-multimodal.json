@@ -1,0 +1,148 @@
+{
+  "contractVersion": "elyra-multimodal/v2",
+  "inputSchemaVersion": "elyra-multimodal-input/v2",
+  "operation": "interpret_observable_session_signals",
+  "aiInferenceConsent": true,
+  "multimodalAnalysisConsent": true,
+  "transcriptAnalysisConsent": true,
+  "visualAnalysisConsent": true,
+  "session": {
+    "signalsSchemaVersion": "multimodal_signals/v2",
+    "featureExtractorVersion": "elyra-signals/v3",
+    "sessionKind": "guided",
+    "capturedResources": [
+      "camera",
+      "microphone"
+    ],
+    "durationMs": 600000,
+    "modalityCoverage": [
+      {
+        "modality": "camera",
+        "outcome": "full",
+        "reason": null,
+        "coverageMs": 600000,
+        "sessionDurationMs": 600000
+      },
+      {
+        "modality": "microphone",
+        "outcome": "full",
+        "reason": null,
+        "coverageMs": 600000,
+        "sessionDurationMs": 600000
+      },
+      {
+        "modality": "visual_face",
+        "outcome": "partial",
+        "reason": "out_of_frame",
+        "coverageMs": 420000,
+        "sessionDurationMs": 600000
+      },
+      {
+        "modality": "visual_body",
+        "outcome": "full",
+        "reason": null,
+        "coverageMs": 600000,
+        "sessionDurationMs": 600000
+      },
+      {
+        "modality": "visual_hands",
+        "outcome": "absent",
+        "reason": "not_observed",
+        "coverageMs": 0,
+        "sessionDurationMs": 600000
+      }
+    ],
+    "selfReport": {
+      "mood": 6,
+      "perceivedAnxiety": 4,
+      "energy": 5
+    },
+    "windows": [
+      {
+        "signal": "pause_count",
+        "startOffsetMs": 0,
+        "endOffsetMs": 300000,
+        "value": 12
+      },
+      {
+        "signal": "head_movement_frequency",
+        "startOffsetMs": 0,
+        "endOffsetMs": 300000,
+        "value": 0.31
+      }
+    ],
+    "transcript": {
+      "language": "pt-BR",
+      "text": "Falei sobre a semana e sobre o que mudou no trabalho.",
+      "wordCount": 10,
+      "voicedDurationMs": 240000,
+      "truncated": false
+    },
+    "signals": [
+      {
+        "name": "speech_rate",
+        "value": 132,
+        "unit": "words_per_minute",
+        "personalBaselineMean": 128,
+        "personalBaselineSamples": 9,
+        "deltaVsPersonalBaseline": 4,
+        "status": "available",
+        "coverage": {
+          "modality": "microphone",
+          "outcome": "full",
+          "reason": null,
+          "coverageMs": 600000,
+          "sessionDurationMs": 600000
+        }
+      },
+      {
+        "name": "pause_count",
+        "value": 18,
+        "unit": "count",
+        "personalBaselineMean": 15,
+        "personalBaselineSamples": 9,
+        "deltaVsPersonalBaseline": 3,
+        "status": "available",
+        "coverage": {
+          "modality": "microphone",
+          "outcome": "full",
+          "reason": null,
+          "coverageMs": 600000,
+          "sessionDurationMs": 600000
+        }
+      },
+      {
+        "name": "head_movement_frequency",
+        "value": 0.31,
+        "unit": "index",
+        "personalBaselineMean": 0.28,
+        "personalBaselineSamples": 7,
+        "deltaVsPersonalBaseline": 0.03,
+        "status": "available",
+        "coverage": {
+          "modality": "visual_face",
+          "outcome": "partial",
+          "reason": "out_of_frame",
+          "coverageMs": 420000,
+          "sessionDurationMs": 600000
+        }
+      },
+      {
+        "name": "body_motion_amplitude",
+        "value": 0.12,
+        "unit": "index",
+        "personalBaselineMean": 0.11,
+        "personalBaselineSamples": 7,
+        "deltaVsPersonalBaseline": 0.01,
+        "status": "available",
+        "coverage": {
+          "modality": "visual_body",
+          "outcome": "full",
+          "reason": null,
+          "coverageMs": 600000,
+          "sessionDurationMs": 600000
+        }
+      }
+    ]
+  }
+}

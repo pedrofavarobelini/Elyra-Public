@@ -1,0 +1,52 @@
+{
+  "contractVersion": "elyra-multimodal/v2",
+  "inputSchemaVersion": "elyra-multimodal-input/v2",
+  "operation": "interpret_observable_session_signals",
+  "aiInferenceConsent": true,
+  "multimodalAnalysisConsent": true,
+  "transcriptAnalysisConsent": false,
+  "visualAnalysisConsent": false,
+  "session": {
+    "signalsSchemaVersion": "multimodal_signals/v2",
+    "featureExtractorVersion": "elyra-signals/v3",
+    "sessionKind": "deep_checkin",
+    "capturedResources": [
+      "microphone"
+    ],
+    "durationMs": 60000,
+    "modalityCoverage": [
+      {
+        "modality": "microphone",
+        "outcome": "partial",
+        "reason": "interrupted",
+        "coverageMs": 12000,
+        "sessionDurationMs": 60000
+      }
+    ],
+    "selfReport": {
+      "mood": 3,
+      "perceivedAnxiety": null,
+      "energy": null
+    },
+    "windows": [],
+    "transcript": null,
+    "signals": [
+      {
+        "name": "speech_rate",
+        "value": null,
+        "unit": "words_per_minute",
+        "personalBaselineMean": null,
+        "personalBaselineSamples": 0,
+        "deltaVsPersonalBaseline": null,
+        "status": "not_captured",
+        "coverage": {
+          "modality": "microphone",
+          "outcome": "partial",
+          "reason": "interrupted",
+          "coverageMs": 12000,
+          "sessionDurationMs": 60000
+        }
+      }
+    ]
+  }
+}
