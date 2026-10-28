@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "3.10.0",
-    "@huggingface/transformers": "3.7.6",
+    "@huggingface/transformers": "4.3.2",
     "@mediapipe/tasks-vision": "1.0.1",
     "@radix-ui/react-avatar": "1.1.2",
     "@radix-ui/react-dialog": "1.1.4",
@@ -101,7 +101,7 @@
     "supabase": "2.115.0",
     "tailwindcss": "4.3.3",
     "typescript": "5.7.3",
-    "vitest": "2.1.9"
+    "vitest": "3.2.6"
   },
   "allowScripts": {
     "esbuild@0.21.5": true,
